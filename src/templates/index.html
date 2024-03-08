@@ -1,0 +1,10 @@
+{% extends 'base.html' %}
+{% block content %}
+
+    
+    {% for dict_item in NoteList %}
+        {{ dict_item }}
+        <hr />
+    {% endfor %}
+
+{% endblock %}
