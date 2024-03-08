@@ -18,13 +18,16 @@ def index():
     allNotes = NoteList.NoteList()
     allNotes.BuildNoteList()
 
+    # Get IAP
+    user = request.headers.get("X-Goog-Authenticated-User-Id")
+
     # Build NodeTitle List
     NoteTitles = []
     for aNote in allNotes.note_collection:
         NoteTitles.append(aNote.customer)
 
     # Render Template
-    return render_template('index.html', NoteList=NoteTitles)
+    return render_template('index.html', NoteList=NoteTitles, User=user)
 
 @app.route('/save')
 def save_note():

@@ -1,7 +1,10 @@
 {% extends 'base.html' %}
 {% block content %}
-
+    {% if User is defined and User %}
+        <h2>Logged in as {{ User }}</h2>
+    {% endif %}
     
+
     {% for dict_item in NoteList %}
         {{ dict_item }}
         <hr />
