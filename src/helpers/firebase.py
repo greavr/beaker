@@ -14,7 +14,7 @@ def init_firebase():
     cred = credentials.ApplicationDefault()
     firebase_admin.initialize_app(cred)
 
-@cachetools.func.ttl_cache(maxsize=1024, ttl=5)
+@cachetools.func.ttl_cache(maxsize=128, ttl=5)
 def GetNoteList(CollectionId: str = "notes") -> list:
     """ 
         This function returns all the notes in the collection
@@ -36,9 +36,7 @@ def GetNoteList(CollectionId: str = "notes") -> list:
         
         for doc in docs:
             this_doc = doc.to_dict()
-            print(this_doc["customer"])
             note_list.append(this_doc)
-            this_doc = ""
 
         logging.debug(f"Found {len(note_list)} notes.")
     except Exception as ex:
@@ -105,3 +103,34 @@ def Save(NoteDetails: Note, CollectionId: str = "notes") -> bool:
         success = False
 
     return success
+
+def GetNote(DocName: str, CollectionId: str = "notes") -> dict:
+    """
+        This function looks up a note from the collection
+        
+        Ages: 
+            DocName; Str - Name of the note to pull
+            CollectionId: str - Note collection to search, default to notes
+        
+        Returns:
+            Values to Dict
+        
+    """
+    
+    #Return Value
+    ReturnDict = {}
+
+    try:
+        # Attempting to list all notes available
+        logging.info(f"Gather Note {DocName} from the {CollectionId}")
+        db = firestore.client()
+        doc_ref = db.collection(CollectionId).document(DocName)
+        doc = doc_ref.get()
+        logging.debug(f"Found {DocName} notes.")
+        ReturnDict = doc.to_dict()
+
+    except Exception as ex:
+        # Failed
+        logging.error(ex)
+
+    return ReturnDict

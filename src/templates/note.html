@@ -1,0 +1,7 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    {{ ThisNote }}
+
+    {% if  ThisNote is defined and ThisNote|length > 0 %}<a href="/delete/{{ ThisNote.customer }}">Delete Note</a>{% endif %}
+{% endblock %}

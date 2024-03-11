@@ -2,19 +2,19 @@ import json
 import logging
 
 from classes.note import Note
+from classes.link import link
+from classes.todo import todo
+
 from helpers import firebase
 
 class NoteList():
     """
         This is a list of notes
     """
-    def __init__(self, 
-        CollectionID: str = "notes"):
-        self.note_collection: list[Note] = []
+    def __init__(self, CollectionID: str = "notes"):
+        self.CustomerList = []
+        self.note_collection = []
         self.CollectionID = CollectionID
-
-        #Build Note List
-        self.BuildNoteList()
 
     def __str__(self) -> str:
         return f"NoteList(notes={self.notes}) "
@@ -35,11 +35,49 @@ class NoteList():
             This functions automatically builds list of notes from firebase
         """
 
+        # Clean up the list
+        self.note_collection = []
+
         RawResults = firebase.GetNoteList(CollectionId=self.CollectionID)
 
-        print(f"Type: {type(RawResults)}, Count: {len(RawResults)}, Data: {RawResults}")
         # Itterate over results
-        for aNote in RawResults:
-            logging.debug(f"Type: {type(aNote)}")
-            thisNote = Note.from_dict(data=aNote)
+        for aResult in RawResults:
+            # Build Link list
+            LinkList = []
+            for aLink in aResult["Links"]:
+                thisLink = link(
+                    url=aLink["url"],
+                    text=aLink["text"]
+                )
+                LinkList.append(thisLink)
+
+            # Build Todo list
+            TodoList = []
+            for aTodo in aResult["Todos"]:
+                thisTodo = todo(
+                    text=aTodo["text"],
+                    status=aTodo["status"],
+                    DueDate=aTodo["DueDate"]
+                )
+                TodoList.append(thisTodo)
+
+
+            thisNote = Note(
+                customer=aResult["customer"],
+                fsr=aResult["fsr"],
+                NextStep=aResult["NextStep"],
+                Status=aResult["Status"],
+                Created=aResult["Created"],
+                LastUpdated=aResult["LastUpdated"],
+                Images=aResult["Images"],
+                Infrastructure=aResult["Infrastructure"],
+                OnMe=aResult["OnMe"],
+                SFDC=aResult["SFDC"],
+                Todos=TodoList,
+                PublicSite=aResult["PublicSite"],
+                Links=LinkList,
+                CollectionID=self.CollectionID
+            )
+
+            self.CustomerList.append(thisNote.customer)
             self.note_collection.append(thisNote)

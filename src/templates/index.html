@@ -5,9 +5,10 @@
     {% endif %}
     
 
-    {% for dict_item in NoteList %}
-        {{ dict_item }}
-        <hr />
+    <ul>
+    {% for aTitle in NoteTitles %}
+        <li><a href="/note/{{ aTitle }}">{{ aTitle }}</a></li>
     {% endfor %}
+    </ul>
 
 {% endblock %}
