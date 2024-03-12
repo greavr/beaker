@@ -83,6 +83,8 @@ def index():
     allNotes = NoteList.NoteList()
     allNotes.BuildNoteList()
 
+    print(allNotes.todo_collection)
+
     # Render Template
     return render_template('index.html', NoteList=allNotes.note_collection, NoteTitles=allNotes.CustomerList, User=user)
 
@@ -121,8 +123,9 @@ if __name__ == '__main__':
 
     # Testing time
     # Create Note
+    thisCustomer = random.choice(["Alice", "Bob", "Carol", "Dave", "Eve", "Frank", "George", "Hannah", "Ian", "Jack"])
     sampleNote = note.Note(
-        customer=random.choice(["Alice", "Bob", "Carol", "Dave", "Eve", "Frank", "George", "Hannah", "Ian", "Jack"]),
+        customer=thisCustomer,
         fsr=random.choice(["Kaitlyn","Jimmy"]),
         Notes="BLAH BLAH BLAH",
         NextStep="Look into what we can do with Vertex",
@@ -133,9 +136,9 @@ if __name__ == '__main__':
         SFDC=''.join(random.choice(string.ascii_uppercase + string.digits) for _ in range(5)),
         PublicSite="https://www.netflix.com",
         Links=[link.link(url="https://www.google.com",text="Google"),link.link(url="https://reddit.com",text="Reddit")],
-        Todos=[todo.todo(text="Look into vertex",status="Todo",DueDate=datetime.today() + timedelta(days=2)),todo.todo(text="Sleep",status="Complete",DueDate=datetime.today() - timedelta(days=1)) ]
+        Todos=[todo.todo(text="Look into vertex",status="Todo",DueDate=datetime.today() + timedelta(days=2), customer=thisCustomer),todo.todo(text="Sleep",status="Complete",customer=thisCustomer,DueDate=datetime.today() - timedelta(days=1)) ]
     )
-    #sampleNote.Save()
+    sampleNote.Save()
 
     # Run the app
     app.run(debug=True, host="0.0.0.0", port=int(os.environ.get("PORT", 8080)))

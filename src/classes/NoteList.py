@@ -14,6 +14,7 @@ class NoteList():
     def __init__(self, CollectionID: str = "notes"):
         self.CustomerList = []
         self.note_collection = []
+        self.todo_collection = []
         self.CollectionID = CollectionID
 
     def __str__(self) -> str:
@@ -51,6 +52,8 @@ class NoteList():
                 )
                 LinkList.append(thisLink)
 
+                
+
             # Build Todo list
             TodoList = []
             for aTodo in aResult["Todos"]:
@@ -59,10 +62,14 @@ class NoteList():
                     status=aTodo["status"],
                     DueDate=aTodo["DueDate"],
                     createdAt=aTodo["createdAt"],
-                    updatedAt=aTodo["updatedAt"]
+                    updatedAt=aTodo["updatedAt"],
+                    customer=aResult["customer"]
                 )
                 TodoList.append(thisTodo)
 
+                # No add to master todo list:
+                if thisTodo.status != "Complete":
+                    self.todo_collection.append(thisTodo)
 
             thisNote = Note(
                 customer=aResult["customer"],
@@ -84,3 +91,7 @@ class NoteList():
 
             self.CustomerList.append(thisNote.customer)
             self.note_collection.append(thisNote)
+
+        # Sort Active Todos
+        # TODO
+            #self.todo_collection.sort(key = lambda x:x['DueDate'])
