@@ -17,20 +17,9 @@ class link():
             "createdAt": self.createdAt.isoformat()
         }
     
-    @classmethod
-    def from_dict(self, data):
-        self.url = data["url"]
-        self.text = data["text"]
-        self.createdAt = datetime.fromisoformat(data["createdAt"])
-        return self
     
     def to_json(self):
         return json.dumps(self.to_dict(), indent=4, sort_keys=True, default=str)
-    
-    @classmethod
-    def from_json(self, data):
-        self.from_dict(json.loads(data))
-        return self
 
     def __repr__(self) -> str:
         return f"link('url={self.url}', text='{self.text}')"

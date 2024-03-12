@@ -57,7 +57,9 @@ class NoteList():
                 thisTodo = todo(
                     text=aTodo["text"],
                     status=aTodo["status"],
-                    DueDate=aTodo["DueDate"]
+                    DueDate=aTodo["DueDate"],
+                    createdAt=aTodo["createdAt"],
+                    updatedAt=aTodo["updatedAt"]
                 )
                 TodoList.append(thisTodo)
 
@@ -75,6 +77,7 @@ class NoteList():
                 SFDC=aResult["SFDC"],
                 Todos=TodoList,
                 PublicSite=aResult["PublicSite"],
+                Notes=aResult["Notes"],
                 Links=LinkList,
                 CollectionID=self.CollectionID
             )

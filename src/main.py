@@ -21,7 +21,6 @@ def read_note(NoteTitle):
     allNotes.BuildNoteList()
 
     # Return Value
-    thisNote = ""
     found = False
 
     # Itterate through all notes
@@ -34,7 +33,7 @@ def read_note(NoteTitle):
     if not found:
         flash(f'Unable to find note for: {NoteTitle}')
 
-    return render_template('note.html', ThisNote=foundNote, User=user, NoteList=allNotes, NoteTitles=allNotes.CustomerList)
+    return render_template('note.html', ThisNote=foundNote, User=user, NoteList=allNotes.note_collection, NoteTitles=allNotes.CustomerList)
 
 @app.route('/new')
 def new_note():
@@ -45,7 +44,7 @@ def new_note():
     allNotes = NoteList.NoteList()
     allNotes.BuildNoteList()
 
-    return render_template('note.html', ThisNote="", User=user, NoteList=allNotes, NoteTitles=allNotes.CustomerList)
+    return render_template('note.html', ThisNote="", User=user, NoteList=allNotes.note_collection, NoteTitles=allNotes.CustomerList)
 
 @app.route("/delete/<string:DeleteNoteTitle>", methods=['GET', 'POST'])
 def delete_note(DeleteNoteTitle):
@@ -71,6 +70,10 @@ def delete_note(DeleteNoteTitle):
         flash(f'Unable to delete: {DeleteNoteTitle}. Error: {ex}', 'error')
         return redirect(url_for('read_note',NoteTitle=DeleteNoteTitle))
 
+@app.route('/settings')
+def settings():
+    return redirect(url_for('index'))
+
 @app.route('/')
 def index():
     # Get IAP
@@ -81,7 +84,7 @@ def index():
     allNotes.BuildNoteList()
 
     # Render Template
-    return render_template('index.html', NoteList=allNotes, NoteTitles=allNotes.CustomerList, User=user)
+    return render_template('index.html', NoteList=allNotes.note_collection, NoteTitles=allNotes.CustomerList, User=user)
 
 @app.route('/save')
 def save_note():
@@ -105,6 +108,7 @@ def save_note():
     else:
         return redirect(f"/note/{this_note.customer}?save=failed" , code=302)
 
+
 if __name__ == '__main__':
     # First check if running in google cloud
     if os.getenv('is_gcp') is not None:
@@ -120,6 +124,7 @@ if __name__ == '__main__':
     sampleNote = note.Note(
         customer=random.choice(["Alice", "Bob", "Carol", "Dave", "Eve", "Frank", "George", "Hannah", "Ian", "Jack"]),
         fsr=random.choice(["Kaitlyn","Jimmy"]),
+        Notes="BLAH BLAH BLAH",
         NextStep="Look into what we can do with Vertex",
         Status=random.choice(["Active","Closed"]),
         Images="",

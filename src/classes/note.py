@@ -9,8 +9,9 @@ import helpers.firebase
 
 class Note():
     """ THis is basic note class, used as home for all values"""
-    def __init__(self, customer: str, fsr: str, NextStep: str, Status: str, Images: str, Infrastructure: str, OnMe: bool, SFDC: str, Todos: list[todo.todo], PublicSite: str, Links: list[link.link], Created: datetime = datetime.now(), LastUpdated: datetime = datetime.now(), CollectionID: str = "notes"):
+    def __init__(self, customer: str, Notes:str, fsr: str, NextStep: str, Status: str, Images: str, Infrastructure: str, OnMe: bool, SFDC: str, Todos: list[todo.todo], PublicSite: str, Links: list[link.link], Created: datetime = datetime.now(), LastUpdated: datetime = datetime.now(), CollectionID: str = "notes"):
         self.customer = customer
+        self.Notes = Notes
         self.fsr = fsr
         self.NextStep = NextStep
         self.Status = Status
@@ -26,7 +27,7 @@ class Note():
         self.CollectionID = CollectionID
 
     def __str__(self) -> str:
-        return f"Note(customer={self.customer}, fsr={self.fsr}, NextStep={self.NextStep}, Status={self.Status}, Created={self.Created}, LastUpdated={self.LastUpdated}, Images={self.Images}, Infrastructure={self.Infrastructure}, OnMe={self.OnMe}, SFDC={self.SFDC}, Todos={self.Todos}, PublicSite={self.PublicSite}, Links={self.Links})"
+        return f"Note(customer={self.customer}, Notes={self.Notes}, fsr={self.fsr}, NextStep={self.NextStep}, Status={self.Status}, Created={self.Created}, LastUpdated={self.LastUpdated}, Images={self.Images}, Infrastructure={self.Infrastructure}, OnMe={self.OnMe}, SFDC={self.SFDC}, Todos={self.Todos}, PublicSite={self.PublicSite}, Links={self.Links})"
 
     def __repr__(self):
         return f"Note('{self.customer}', '{self.fsr}', '{self.NextStep}', '{self.Status}', '{self.Created}', '{self.LastUpdated}', '{self.Images}', '{self.Infrastructure}', '{self.OnMe}', '{self.SFDC}', '{self.Todos}', '{self.PublicSite}', '{self.Links}')" 
@@ -53,6 +54,7 @@ class Note():
             "SFDC": self.SFDC,
             "Todos": Todos,
             "PublicSite": self.PublicSite,
+            "Notes": self.Notes,
             "Links": LinkList
         }
 

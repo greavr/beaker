@@ -7,15 +7,25 @@
     <title>Beaker- CE Note Taker</title>
     <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='style.css') }}">
     <link rel="icon" href="{{ url_for('static', filename='favicon.ico') }}" type="image/x-icon">
-    <!-- <script src="{{url_for('static', filename='javascript.js')}}"></script> -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.js"></script>   
+    <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.16/jquery-ui.js"></script>   
+    <link href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.16/themes/ui-lightness/jquery-ui.css" rel="stylesheet" type="text/css" />   
+    <script src="{{url_for('static', filename='javascript.js')}}"></script>
+    <script>
+        $( function() { 
+            var availableTags = [ 
+                {% for aTitle in NoteTitles %} 
+                    "{{aTitle}}", 
+                {% endfor %} 
+            ]; 
+            $( "#search" ).autocomplete({ 
+            source: availableTags 
+            }); 
+        } ); 
+    </script>
 </head>
-<body>
-    <nav id="mySidebar">
-        <a href="javascript:void(0)" class="w3-bar-item w3-button w3-border-bottom w3-large"><img src="https://www.w3schools.com/images/w3schools.png" style="width:60%;"></a>
-        <a href="javascript:void(0)" onclick="w3_close()" title="Close Sidemenu" class="w3-bar-item w3-button w3-hide-large w3-large">Close <i class="fa fa-remove"></i></a>
-    </nav>
-
-    <div class="header">
+<body>                                                                          
+    <div class="messages">
         {% with messages = get_flashed_messages() %}
             {% if messages %}
             <ul class=flashes>
@@ -26,13 +36,42 @@
             {% endif %}
         {% endwith %}
     </div>
-    <div class="container">
+    <div class="row">
+        <div class="leftcolumn">
     {% block content %}
 
     {% endblock %}
+        </div>
+        <div class="rightcolumn">
+            <div class="card">
+                {% if User is defined and User %}
+                    <h2>Logged in as {{ User }}</h2>
+                {% else %}
+                    <h2 style="color:red">Not Logged In</h2>
+                {% endif %}
+                <div class="search-container">
+                    <input type="search" name="search" id="search" placeholder="Search..">
+                    <button type="submit"><i class="fa fa-search"></i></button>
+                </div>
+            </div>
+            <div class="card">
+              <h3>Recent Notes</h3>
+              {% for aTitle in NoteList[:3] %}
+                <button class="collapsible" title="Last Updated: {{ aTitle.LastUpdated }}"><a href="/note/{{ aTitle.customer}}">{{ aTitle.customer }}</a><br />{{ aTitle.fsr }} | {{ aTitle.Status }}</button>
+                <div id="content">
+                    {{ aTitle.Note }}
+                </div>
+                <br />
+                {% endfor %}
+            </div>
+            <div class="card">
+              <h3>Follow Me</h3>
+              <p>Some text..</p>
+            </div>
+        </div>
     </div>
     <div class="footer">
-        <a href="/">Home</a> 
+        <a href="{{ url_for('index') }}">Home</a> | <a href="{{ url_for('settings') }}"> Settings</a> | <a href="{{ url_for('new_note') }}"> New Note</a>
     </div>
 </body>
 </html>

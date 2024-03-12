@@ -1,7 +1,62 @@
 {% extends 'base.html' %}
 
 {% block content %}
-    {{ ThisNote }}
+
+    <form id="note" method="post" action="{{ url_for('save_note') }}" name="Note"> <br />
+        Customer: <input type="text" id="customer" name="customer" value="{{ ThisNote.customer }}" > <br />
+        FSR: <input type="text" id="fsr" name="fsr" value="{{ ThisNote.fsr }}" > <br />    
+        Status: <input type="text" id="status" name="status" value="{{ ThisNote.status }}" > <br />   
+        Note: <input type="textarea" rows="100" cols="50" id="Notes" name="Notes" value="{{ ThisNote.Notes }}" > <br />     
+        Infrastructure: <input type="text" id="Infrastructure" name="Infrastructure" value="{{ ThisNote.Infrastructure }}" >   <br />
+        NextStep: <input type="text" id="NextStep" name="NextStep" value="{{ ThisNote.NextStep }}" > <br /> 
+        Status: <input type="text" id="Status" name="Status" list="status" > <br />
+        <select id="status" name="status">
+            <option value="active" {% if ThisNote.Status == "active" %} selected {% endif %}>active</option>
+            <option value="archive" {% if ThisNote.Status == "archive" %} selected {% endif %}>archive</option>
+        </select>  <br />
+        Created : {{ ThisNote.Created }}<br /> 
+        Last Updated: {{ ThisNote.LastUpdated }} <br />
+        SFDC: <input type="text" id="SFDC" name="SFDC" value="{{ ThisNote.SFDC }}" > <br /> 
+        PublicSite: <input type="url" id="PublicSite" name="PublicSite" value="{{ ThisNote.PublicSite }}" > <br /> 
+        
+        {% if ThisNote.OnMe is defined %}
+            {% if ThisNote.OnMe %}
+                <b>On Me:</b><input type="checkbox" name="OnMe" id="OnMe" value="True" checked> <br />
+            {% else %}
+                <b>On Me:</b><input type="checkbox" name="OnMe" id="OnMe" value="True"> <br />
+            {% endif %}
+        {% else %}
+            <b>Active:</b><input type="checkbox" name="OnMe" id="OnMe" checked> <br />
+        {% endif %}
+
+        <table>
+            <tr><th colspan="3">Todos</th></tr>
+
+        {% for aTodo in ThisNote.Todos %}
+            <tr title="Created: {{ aTodo.createdAt }} - Last Updated: {{ aTodo.updatedAt }}">
+                <td width="70%">{{ aTodo.text }}</td>
+                <td>{{ aTodo.status }}</td>
+                <td>{{ aTodo.DueDate }}</td>
+            </tr>
+        {% endfor %} 
+        </table>
+
+        <table>
+            <tr><th colspan="2">URLs</th></tr>
+
+        {% for aLink in ThisNote.Links %}
+            <tr title="Created: {{ aLink.createdAt }}">
+                <td width="80%">{{ aLink.url }}</td>
+                <td>{{ aLink.text }}</td>
+            </tr>
+        {% endfor %} 
+        </table>
+
+
+
+        <input type="submit" value="Submit">  
+
+    </form>
 
     {% if  ThisNote is defined and ThisNote|length > 0 %}<a href="/delete/{{ ThisNote.customer }}">Delete Note</a>{% endif %}
 {% endblock %}
