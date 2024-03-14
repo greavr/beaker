@@ -72,17 +72,17 @@
             </div>
             <div class="card">
               <h3>Active Todos</h3>
-                {% for aTodo in todoList %} 
-                <div class="todo" title="{{aTodo.createdAt}}">
-                    {{aTodo.text[:222]}}...<br />
-                    <a href="note/{{aTodo.customer}}">{{aTodo.customer}} - {{ aTodo.DueDate }}</a>
+                {% for aTodo in todoList %}
+                <button title="{{aTodo.createdAt}}" class="collapsible">{{aTodo.customer}} - {{ aTodo.DueDate }}</button>
+                <div class="content">
+                    <p><a href="note/{{aTodo.customer}}">{{aTodo.text}}</a></p>
                 </div>
                 {% endfor %} 
             </div>
         </div>
     </div>
     <div class="footer">
-        <a href="{{ url_for('index') }}">Home</a> | <a href="{{ url_for('settings') }}"> Settings</a> | <a href="{{ url_for('new_note') }}"> New Note</a>
+        <a href="{{ url_for('index') }}">Home</a> | <a href="{{ url_for('settings') }}"> Settings</a> | <a href="{{ url_for('new_note') }}"> New Note</a> | <a href="{{ url_for('index') }}">Todos</a> | <a href="{{ url_for('index') }}">Expert Requests</a> | <a href="{{ url_for('index') }}">Dashboards</a>
     </div>
 </body>
 </html>

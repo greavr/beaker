@@ -82,7 +82,7 @@ def Save(NoteDetails: Note, CollectionId: str = "notes") -> bool:
             Bool - True for success false for fail
     """
     record_id = NoteDetails.customer
-    NoteDetails.LastUpdated = datetime.now()
+    NoteDetails.LastUpdated = datetime.now().strftime("%m/%d/%Y, %H:%M:%S")
     success = True
 
     db = firestore.client()

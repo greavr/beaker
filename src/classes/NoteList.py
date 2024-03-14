@@ -50,7 +50,8 @@ class NoteList():
             for aLink in aResult["Links"]:
                 thisLink = link(
                     url=aLink["url"],
-                    text=aLink["text"]
+                    text=aLink["text"],
+                    createdAt=aLink["createdAt"]
                 )
                 LinkList.append(thisLink)
 
@@ -59,7 +60,8 @@ class NoteList():
             for aER in aResult["ExpertRequests"]:
                 thisER = link(
                     url=aER["url"],
-                    text=aER["text"]
+                    text=aER["text"],
+                    createdAt=aLink["createdAt"]
                 )
                 erList.append(thisER)
                 
@@ -70,7 +72,7 @@ class NoteList():
                 thisTodo = todo(
                     text=aTodo["text"],
                     status=aTodo["status"],
-                    DueDate=aTodo["DueDate"],
+                    DueDate=datetime.strptime(str(aTodo["DueDate"]),"%m/%d/%Y, %H:%M:%S"),
                     createdAt=aTodo["createdAt"],
                     updatedAt=aTodo["updatedAt"],
                     customer=aResult["customer"]

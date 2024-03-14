@@ -151,7 +151,7 @@ if __name__ == '__main__':
         PublicSite="https://www.netflix.com",
         Links=[link.link(url="https://www.google.com",text="Google"),link.link(url="https://reddit.com",text="Reddit")],
         ExpertRequests=[link.link(url="https://www.google.com",text="DocAI"),link.link(url="https://reddit.com",text="TTP")],
-        Todos=[todo.todo(text="Look into vertex",status="Todo",DueDate=datetime.today() + timedelta(days=2), customer=thisCustomer),todo.todo(text="Sleep",status="Complete",customer=thisCustomer,DueDate=datetime.today() - timedelta(days=1)) ]
+        Todos=[todo.todo(text=''.join(random.choice(string.ascii_uppercase + string.digits) for _ in range(500)),status="Todo",DueDate=datetime.today() + timedelta(days=2), customer=thisCustomer),todo.todo(text=''.join(random.choice(string.ascii_uppercase + string.digits) for _ in range(500)),status="Complete",customer=thisCustomer,DueDate=datetime.today() - timedelta(days=1)) ]
     )
     #sampleNote.Save()
 

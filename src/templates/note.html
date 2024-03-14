@@ -7,7 +7,7 @@
         FSR: <input type="text" id="fsr" name="fsr" value="{{ ThisNote.fsr }}" > <br />    
         Status: <input type="text" id="status" name="status" value="{{ ThisNote.status }}" > <br />   
         Note: {{ ckeditor.create(value=ThisNote.Notes) }}<br />     
-        Infrastructure: <input type="text" id="Infrastructure" name="Infrastructure" value="{{ ThisNote.Infrastructure }}" >   <br />
+        Infrastructure: <input type="text" id="Infrastructure" name="Infrastructure" value="{{ ThisNote.Infrastructure }}"><br />
         NextStep: <input type="text" id="NextStep" name="NextStep" value="{{ ThisNote.NextStep }}" > <br /> 
         Status: <input type="text" id="Status" name="Status" list="status" > <br />
         <select id="status" name="status">

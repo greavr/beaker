@@ -9,14 +9,30 @@ import helpers.firebase
 
 class Note():
     """ THis is basic note class, used as home for all values"""
-    def __init__(self, customer: str, Notes:str, fsr: str, NextStep: str, Status: str, Images: str, Infrastructure: str, OnMe: bool, SFDC: str, PublicSite: str, Todos: list[todo.todo]=[], Links: list[link.link] = [],ExpertRequests: list[link.link] = [], Created: datetime = datetime.now(), LastUpdated: datetime = datetime.now(), CollectionID: str = "notes"):
+    def __init__(self, 
+                 customer: str, 
+                 Notes:str, 
+                 fsr: str, 
+                 NextStep: str, 
+                 Status: str, 
+                 Images: str, 
+                 Infrastructure: str, 
+                 OnMe: bool, 
+                 SFDC: str, 
+                 PublicSite: str, 
+                 Todos: list[todo.todo] = [], 
+                 Links: list[link.link] = [],
+                 ExpertRequests: list[link.link] = [], 
+                 Created: datetime = datetime.now().strftime("%m/%d/%Y, %H:%M:%S"), 
+                 LastUpdated: datetime = datetime.now().strftime("%m/%d/%Y, %H:%M:%S"), 
+                 CollectionID: str = "notes"):
         self.customer = customer
         self.Notes = Notes
         self.fsr = fsr
         self.NextStep = NextStep
         self.Status = Status
-        self.Created = Created.strftime("%m/%d/%Y, %H:%M:%S")
-        self.LastUpdated = LastUpdated.strftime("%m/%d/%Y, %H:%M:%S")
+        self.Created = Created
+        self.LastUpdated = LastUpdated
         self.Images = Images
         self.Infrastructure = Infrastructure
         self.OnMe = OnMe

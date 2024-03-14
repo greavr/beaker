@@ -2,12 +2,18 @@ from datetime import datetime
 import json
 
 class todo():
-    def __init__(self, text: str, status: str, DueDate: datetime, customer: str, updatedAt: datetime = datetime.now(), createdAt: datetime = datetime.now()):
+    def __init__(self, 
+                 text: str, 
+                 status: str, 
+                 DueDate: datetime, 
+                 customer: str, 
+                 updatedAt: datetime = datetime.now().strftime("%m/%d/%Y, %H:%M:%S"), 
+                 createdAt: datetime = datetime.now().strftime("%m/%d/%Y, %H:%M:%S")):
         self.text = text
         self.status = status
         self.DueDate = DueDate.strftime("%m/%d/%Y, %H:%M:%S")
-        self.createdAt = createdAt.strftime("%m/%d/%Y, %H:%M:%S")
-        self.updatedAt = updatedAt.strftime("%m/%d/%Y, %H:%M:%S")
+        self.createdAt = createdAt
+        self.updatedAt = updatedAt
         self.customer = customer
 
     def __str__(self) -> str:

@@ -11,13 +11,13 @@
   /* Left column */
   .leftcolumn {
     float: left;
-    width: 85%;
+    width: 80%;
   }
 
   /* Right column */
   .rightcolumn {
     float: left;
-    width: 15%;
+    width: 20%;
     padding-left: 20px;
   }
 
@@ -34,7 +34,7 @@
     font-size: 15px;
     box-shadow: 2px 4px #888888;
     border: 1px solid;
-    width: 250px;
+    width: 100%;
     height: 100px;
     border-radius: 10px;
     h2 {
@@ -45,28 +45,42 @@
     }
   }
 
-  .todo {
-    background-color: #f3d4d4;
-    text-align: center;
-    padding: 2px;
-    font-size: 15px;
-    box-shadow: 2px 4px #888888;
-    border: 1px solid;
+  .collapsible {
+    background-color: #777;
+    color: white;
+    cursor: pointer;
+    padding: 18px;
     width: 100%;
-    height: 100%;
-    border-radius: 50px;
-    &:hover {
-      background-color: #f77777;
-    }
-
+    border: none;
+    text-align: left;
+    outline: none;
+    font-size: 15px;
   }
   
- .content {
-    overflow: auto;
-    height: 440px;
-    display: "none";
-    transition: max-height 0.2s ease-out;
+  .active, .collapsible:hover {
+    background-color: #555;
   }
+  
+  .collapsible:after {
+    content: '\002B';
+    color: white;
+    font-weight: bold;
+    float: right;
+    margin-left: 5px;
+  }
+  
+  .active:after {
+    content: "\2212";
+  }
+  
+  .content {
+    padding: 0 18px;
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.2s ease-out;
+    background-color: #f1f1f1;
+  }
+  
   
   /* Add a card effect for articles */
   .card {
@@ -75,10 +89,6 @@
     margin-top: 20px;
   }
 
-  .card search-container {
-    float: right;
-  }
- 
   .search {
     width: 100%;
     height: 40px;

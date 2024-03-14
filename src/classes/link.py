@@ -2,10 +2,14 @@ from datetime import datetime
 import json
 
 class link():
-    def __init__(self, url, text):
+    def __init__(self, 
+                 url: str, 
+                 text: str, 
+                 createdAt: datetime = datetime.now().strftime("%m/%d/%Y, %H:%M:%S")
+                 ):
         self.url = url
         self.text = text
-        self.createdAt = datetime.now().strftime("%m/%d/%Y, %H:%M:%S")
+        self.createdAt = createdAt
     
     def __str__(self):
         return f"{self.url} - {self.text} - {self.createdAt}"
