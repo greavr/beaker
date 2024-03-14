@@ -1,5 +1,7 @@
 import json
 import logging
+from datetime import datetime
+from collections import OrderedDict
 
 from classes.note import Note
 from classes.link import link
@@ -54,7 +56,7 @@ class NoteList():
 
             # Build Expert Request List
             erList = []
-            for aER in aResult.get("ExpertRequests"):
+            for aER in aResult["ExpertRequests"]:
                 thisER = link(
                     url=aER["url"],
                     text=aER["text"]
@@ -75,7 +77,7 @@ class NoteList():
                 )
                 TodoList.append(thisTodo)
 
-                # No add to master todo list:
+                # Now add to master todo list:
                 if thisTodo.status != "Complete":
                     self.todo_collection.append(thisTodo)
 

@@ -21,7 +21,6 @@
     padding-left: 20px;
   }
 
-  .SearchResults, 
   .allnotes {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
@@ -29,39 +28,39 @@
   }
 
   .anote {
-    background-color: #adb2f3;
+    background-color: #d4d6f3;
     text-align: center;
-    padding: 5px;
+    padding: 2px;
     font-size: 15px;
-    box-shadow: 5px 10px #888888;
+    box-shadow: 2px 4px #888888;
     border: 1px solid;
     width: 250px;
     height: 100px;
     border-radius: 10px;
+    h2 {
+      font-size: 25px;
+    }
+    &:hover {
+      background-color: #7780f7;
+    }
   }
 
-  .anote h2{
-    font-size: 25px;
-  }
-  
-
-  
-  .collapsible {
-    background-color: #bebdbd;
-    color: white;
-    cursor: pointer;
-    padding: 18px;
-    width: 100%;
-    border: none;
-    text-align: left;
-    outline: none;
+  .todo {
+    background-color: #f3d4d4;
+    text-align: center;
+    padding: 2px;
     font-size: 15px;
+    box-shadow: 2px 4px #888888;
+    border: 1px solid;
+    width: 100%;
+    height: 100%;
+    border-radius: 50px;
+    &:hover {
+      background-color: #f77777;
+    }
+
   }
   
-  .active, .collapsible:hover {
-    background-color: #555;
-  }
-
  .content {
     overflow: auto;
     height: 440px;

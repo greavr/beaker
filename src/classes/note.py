@@ -15,8 +15,8 @@ class Note():
         self.fsr = fsr
         self.NextStep = NextStep
         self.Status = Status
-        self.Created =Created
-        self.LastUpdated = LastUpdated
+        self.Created = Created.strftime("%m/%d/%Y, %H:%M:%S")
+        self.LastUpdated = LastUpdated.strftime("%m/%d/%Y, %H:%M:%S")
         self.Images = Images
         self.Infrastructure = Infrastructure
         self.OnMe = OnMe

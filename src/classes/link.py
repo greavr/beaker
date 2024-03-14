@@ -5,7 +5,7 @@ class link():
     def __init__(self, url, text):
         self.url = url
         self.text = text
-        self.createdAt = datetime.now()
+        self.createdAt = datetime.now().strftime("%m/%d/%Y, %H:%M:%S")
     
     def __str__(self):
         return f"{self.url} - {self.text} - {self.createdAt}"
@@ -14,7 +14,7 @@ class link():
         return {
             "url": self.url,
             "text": self.text,
-            "createdAt": self.createdAt.isoformat()
+            "createdAt": self.createdAt
         }
     
     

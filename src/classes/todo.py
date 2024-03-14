@@ -5,9 +5,9 @@ class todo():
     def __init__(self, text: str, status: str, DueDate: datetime, customer: str, updatedAt: datetime = datetime.now(), createdAt: datetime = datetime.now()):
         self.text = text
         self.status = status
-        self.DueDate = DueDate
-        self.createdAt = createdAt
-        self.updatedAt = updatedAt
+        self.DueDate = DueDate.strftime("%m/%d/%Y, %H:%M:%S")
+        self.createdAt = createdAt.strftime("%m/%d/%Y, %H:%M:%S")
+        self.updatedAt = updatedAt.strftime("%m/%d/%Y, %H:%M:%S")
         self.customer = customer
 
     def __str__(self) -> str:

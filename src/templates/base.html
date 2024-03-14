@@ -19,12 +19,12 @@
     <script>
         $( function() { 
             var availableTags = [ 
-                {% for aTitle in NoteTitles %} 
-                    "{{aTitle}}", 
+                {% for aNote in NoteList %} 
+                    "{{aNote.customer}}", 
                 {% endfor %} 
             ]; 
             $( "#search" ).autocomplete({ 
-            source: availableTags 
+                source: availableTags 
             }); 
         } ); 
     </script>
@@ -64,16 +64,20 @@
             <div class="card">
               <h3>Recent Notes</h3>
               {% for aTitle in NoteList[:3] %}
-                <button class="collapsible" title="Last Updated: {{ aTitle.LastUpdated }}"><a href="/note/{{ aTitle.customer}}">{{ aTitle.customer }}</a><br />{{ aTitle.fsr }} | {{ aTitle.Status }}</button>
-                <div id="content">
-                    {{ aTitle.Note }}
+                <div class="anote">
+                    <h2><a href="/note/{{ aTitle.customer }}">{{ aTitle.customer }}</a></h2>
+                    {{ aTitle.fsr }} | {{ aTitle.Status }}
                 </div>
-                <br />
-                {% endfor %}
+              {% endfor %}
             </div>
             <div class="card">
-              <h3>Follow Me</h3>
-              <p>Some text..</p>
+              <h3>Active Todos</h3>
+                {% for aTodo in todoList %} 
+                <div class="todo" title="{{aTodo.createdAt}}">
+                    <a href="note/{{aTodo.customer}}">{{aTodo.customer}} - {{ aTodo.DueDate }}</a><br />
+                    {{aTodo.text[:222]}}...
+                </div>
+                {% endfor %} 
             </div>
         </div>
     </div>

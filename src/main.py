@@ -2,8 +2,10 @@ import logging
 import os
 import random
 import string
-from datetime import datetime, timedelta
+from datetime import datetime, timedelta, date
+
 from helpers import cloudlogging, firebase
+
 
 from classes import note, link, todo, NoteList
 
@@ -35,7 +37,7 @@ def read_note(NoteTitle):
     if not found:
         flash(f'Unable to find note for: {NoteTitle}')
 
-    return render_template('note.html', ThisNote=foundNote, User=user, NoteList=allNotes.note_collection, NoteTitles=allNotes.CustomerList)
+    return render_template('note.html', ThisNote=foundNote, User=user, NoteList=allNotes.note_collection, NoteTitles=allNotes.CustomerList,todoList=allNotes.todo_collection)
 
 @app.route('/new')
 def new_note():
@@ -46,7 +48,7 @@ def new_note():
     allNotes = NoteList.NoteList()
     allNotes.BuildNoteList()
 
-    return render_template('note.html', ThisNote="", User=user, NoteList=allNotes.note_collection, NoteTitles=allNotes.CustomerList)
+    return render_template('note.html', ThisNote="", User=user, NoteList=allNotes.note_collection, NoteTitles=allNotes.CustomerList, todoList=allNotes.todo_collection)
 
 @app.route("/delete/<string:DeleteNoteTitle>", methods=['GET', 'POST'])
 def delete_note(DeleteNoteTitle):
@@ -95,7 +97,7 @@ def index():
                 MatchingNotes.append(aNote)
 
     # Render Template
-    return render_template('index.html', SearchTerm=SearchPhrase, SearchNotes=MatchingNotes, NoteList=allNotes.note_collection, User=user)
+    return render_template('index.html', SearchTerm=SearchPhrase, SearchNotes=MatchingNotes, NoteList=allNotes.note_collection, User=user, todoList=allNotes.todo_collection)
 
 @app.route('/save', methods=['POST'])
 def save_note():
@@ -122,7 +124,6 @@ def save_note():
     else:
         flash(f'Unable to delete: {this_note.customer}', 'error')
         return redirect(f"/note/{this_note.customer}?save=failed" , code=302)
-
 
 if __name__ == '__main__':
     # First check if running in google cloud
