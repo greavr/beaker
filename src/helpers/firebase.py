@@ -14,7 +14,7 @@ def init_firebase():
     cred = credentials.ApplicationDefault()
     firebase_admin.initialize_app(cred)
 
-@cachetools.func.ttl_cache(maxsize=128, ttl=5)
+@cachetools.func.ttl_cache(maxsize=128, ttl=1)
 def GetNoteList(CollectionId: str = "notes") -> list:
     """ 
         This function returns all the notes in the collection

@@ -52,6 +52,14 @@ class NoteList():
                 )
                 LinkList.append(thisLink)
 
+            # Build Expert Request List
+            erList = []
+            for aER in aResult.get("ExpertRequests"):
+                thisER = link(
+                    url=aER["url"],
+                    text=aER["text"]
+                )
+                erList.append(thisER)
                 
 
             # Build Todo list
@@ -86,6 +94,7 @@ class NoteList():
                 PublicSite=aResult["PublicSite"],
                 Notes=aResult["Notes"],
                 Links=LinkList,
+                ExpertRequests=erList,
                 CollectionID=self.CollectionID
             )
 

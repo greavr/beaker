@@ -2,3 +2,4 @@ google-cloud-logging
 Flask
 google-cloud-firestore
 firebase-admin
+flask-ckeditor

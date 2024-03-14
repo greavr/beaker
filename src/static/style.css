@@ -7,37 +7,47 @@
     background: #f1f1f1;
   }
   
-  /* Header/Blog Title */
-  .header {
-    padding: 30px;
-    font-size: 40px;
-    text-align: center;
-    background: white;
-  }
-  
   /* Create two unequal columns that floats next to each other */
   /* Left column */
   .leftcolumn {
     float: left;
-    width: 75%;
+    width: 85%;
   }
-  
+
   /* Right column */
   .rightcolumn {
     float: left;
-    width: 25%;
+    width: 15%;
     padding-left: 20px;
   }
-  
-  /* Fake image */
-  .fakeimg {
-    background-color: #aaa;
-    width: 100%;
-    padding: 20px;
+
+  .SearchResults, 
+  .allnotes {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    background-color: rgb(32, 135, 238);
   }
 
+  .anote {
+    background-color: #adb2f3;
+    text-align: center;
+    padding: 5px;
+    font-size: 15px;
+    box-shadow: 5px 10px #888888;
+    border: 1px solid;
+    width: 250px;
+    height: 100px;
+    border-radius: 10px;
+  }
+
+  .anote h2{
+    font-size: 25px;
+  }
+  
+
+  
   .collapsible {
-    background-color: #777;
+    background-color: #bebdbd;
     color: white;
     cursor: pointer;
     padding: 18px;
@@ -69,29 +79,57 @@
   .card search-container {
     float: right;
   }
+ 
+  .search {
+    width: 100%;
+    height: 40px;
+    background: #2e2e2e;
+    background: rgba(0,0,0,.2);
+    border-radius:  3px;
+    border: 1px solid #2e2e2e;
+    
+    input {
+      width: 75%;
+      padding: 10px 5px;
+      float: left;
+      color: #2e2e2e;
+      border: 0;
+      background: transparent;
+      border-radius: 3px 0 0 3px;
+      &:focus {
+        outline: 0;
+        background:transparent;
+      }
+    }
+    
+    button {
+      position: relative;
+      float: right;
+      border: 0;
+      padding: 0;
+      cursor: pointer;
+      height: 40px;
+      width: 20%;
+      color: #0e0e0e;
+      background: transparent;
+      border-left: 1px solid #fff;
+      border-radius: 0 3px 3px 0;
+      &:hover {
+        background: #555;
+        color:#ffffff;
+      }
+      &:active {
+        box-shadow: 0px 0px 12px 0px rgba(225, 225, 225, 1);
+      }
+      &:focus {
+        outline: 0;
+      }
+    }  
+  }
 
-  .card input[type=text] {
-    padding: 6px;
-    margin-top: 8px;
-    font-size: 17px;
-    border: none;
-  }
-  
-  .card .search-container button {
-    float: right;
-    padding: 6px 10px;
-    margin-top: 8px;
-    margin-right: 16px;
-    background: #ddd;
-    font-size: 17px;
-    border: none;
-    cursor: pointer;
-  }
-  
-  .card .search-container button:hover {
-    background: #ccc;
-  }
-  
+
+
+
   /* Clear floats after the columns */
   .row:after {
     content: "";

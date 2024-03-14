@@ -12,3 +12,10 @@ for (i = 0; i < coll.length; i++) {
     } 
   });
 }
+
+$(document).on('click', '.search-submit', function() {
+  var search_term = $(this).data('search');        
+  if (search_term != undefined && search_term != null) {
+      window.location = '/?search=' + search_term;
+  }
+});

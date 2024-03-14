@@ -1,14 +1,25 @@
 {% extends 'base.html' %}
 {% block content %}
-    {% if User is defined and User %}
-        <h2>Logged in as {{ User }}</h2>
+    {% if SearchTerm %}    
+        <div id="SearchResults">
+            Searching for notes containing: <b>{{ SearchTerm }}</b><br />
+            {% for foundNote in SearchNotes %}
+                <div class="anote">
+                    <h2><a href="/note/{{ foundNote.customer }}">{{ foundNote.customer }}</a></h2>
+                    {{ foundNote.fsr }} | {{ foundNote.Status }}
+                </div>
+            {% endfor %}
+        </div>
+        <hr />
     {% endif %}
-    
 
-    <ul>
-    {% for aTitle in NoteTitles %}
-        <li><a href="/note/{{ aTitle }}">{{ aTitle }}</a></li>
-    {% endfor %}
-    </ul>
+    <div id="allnotes">
+    {% for aTitle in NoteList %}
+        <div class="anote">
+            <h2><a href="/note/{{ aTitle.customer }}">{{ aTitle.customer }}</a></h2>
+            {{ aTitle.fsr }} | {{ aTitle.Status }}
+        </div>
+        {% endfor %}
+    </div>
 
 {% endblock %}

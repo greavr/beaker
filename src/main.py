@@ -8,9 +8,11 @@ from helpers import cloudlogging, firebase
 from classes import note, link, todo, NoteList
 
 from flask import Flask, render_template, request, redirect, url_for, flash
+from flask_ckeditor import CKEditor
 
 
 app = Flask(__name__)
+ckeditor = CKEditor(app)
 app.secret_key = "beakerbeaker"
 
 @app.route("/note/<string:NoteTitle>", methods=['GET', 'POST'])
@@ -74,40 +76,51 @@ def delete_note(DeleteNoteTitle):
 def settings():
     return redirect(url_for('index'))
 
-@app.route('/')
+@app.route('/', methods=['GET', 'POST'])
 def index():
     # Get IAP
     user = request.headers.get("X-Goog-Authenticated-User-Id")
-    
+   
     # Render Home Page, Note list on left, and empty note in middle
     allNotes = NoteList.NoteList()
     allNotes.BuildNoteList()
 
-    print(allNotes.todo_collection)
+    # Search found notes for the value in the customer or the notes attribute
+    SearchPhrase = request.args.get('search')
+    MatchingNotes = []
+    if SearchPhrase:
+        for aNote in allNotes.note_collection:
+            if (aNote.customer.lower().find(SearchPhrase.lower()) != -1) or (aNote.Notes.lower().find(SearchPhrase.lower()) != -1):
+                #Found a hit
+                MatchingNotes.append(aNote)
 
     # Render Template
-    return render_template('index.html', NoteList=allNotes.note_collection, NoteTitles=allNotes.CustomerList, User=user)
+    return render_template('index.html', SearchTerm=SearchPhrase, SearchNotes=MatchingNotes, NoteList=allNotes.note_collection, User=user)
 
-@app.route('/save')
+@app.route('/save', methods=['POST'])
 def save_note():
     this_note = note.Note(
         customer=request.form['customer'],
         fsr=request.form['fsr'],
         NextStep=request.form['NextStep'],
         Status=request.form['Status'],
-        Images=request.form['Images'],
+        Images=[],
         Infrastructure=request.form['Infrastructure'],
         OnMe=request.form['OnMe'],
         SFDC=request.form['SFDC'],
         PublicSite=request.form['PublicSite'],
         Links=[],
         Todos=[],
+        ExpertRequests=[],
+        Notes=request.form.get('ckeditor')
     )
 
     # Validate safe
-    if this_note.save():
-        return redirect("/?save=success", code=302)
+    if this_note.Save():
+        flash(f'Note: {this_note.customer} saved successfully', 'success')
+        return redirect("/", code=302)
     else:
+        flash(f'Unable to delete: {this_note.customer}', 'error')
         return redirect(f"/note/{this_note.customer}?save=failed" , code=302)
 
 
@@ -136,9 +149,10 @@ if __name__ == '__main__':
         SFDC=''.join(random.choice(string.ascii_uppercase + string.digits) for _ in range(5)),
         PublicSite="https://www.netflix.com",
         Links=[link.link(url="https://www.google.com",text="Google"),link.link(url="https://reddit.com",text="Reddit")],
+        ExpertRequests=[link.link(url="https://www.google.com",text="DocAI"),link.link(url="https://reddit.com",text="TTP")],
         Todos=[todo.todo(text="Look into vertex",status="Todo",DueDate=datetime.today() + timedelta(days=2), customer=thisCustomer),todo.todo(text="Sleep",status="Complete",customer=thisCustomer,DueDate=datetime.today() - timedelta(days=1)) ]
     )
-    sampleNote.Save()
+    #sampleNote.Save()
 
     # Run the app
     app.run(debug=True, host="0.0.0.0", port=int(os.environ.get("PORT", 8080)))
