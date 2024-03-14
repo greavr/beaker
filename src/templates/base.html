@@ -74,8 +74,8 @@
               <h3>Active Todos</h3>
                 {% for aTodo in todoList %} 
                 <div class="todo" title="{{aTodo.createdAt}}">
-                    <a href="note/{{aTodo.customer}}">{{aTodo.customer}} - {{ aTodo.DueDate }}</a><br />
-                    {{aTodo.text[:222]}}...
+                    {{aTodo.text[:222]}}...<br />
+                    <a href="note/{{aTodo.customer}}">{{aTodo.customer}} - {{ aTodo.DueDate }}</a>
                 </div>
                 {% endfor %} 
             </div>
