@@ -2,7 +2,8 @@
 
 {% block content %}
 
-    <form id="note" method="post" action="{{ url_for('save_note') }}" name="Note"> <br />
+    <form id="note" method="post" action="{{ url_for('save_note') }}" name="Note"> <br />  
+    <div class="note_form">
         Customer: <input type="text" id="customer" name="customer" value="{{ ThisNote.customer }}" > <br />
         FSR: <input type="text" id="fsr" name="fsr" value="{{ ThisNote.fsr }}" > <br />    
         Status: <input type="text" id="status" name="status" value="{{ ThisNote.status }}" > <br />   
@@ -29,39 +30,47 @@
             <b>Active:</b><input type="checkbox" name="OnMe" id="OnMe" checked> <br />
         {% endif %}
 
+        <input type="submit" value="Submit"> 
+
+        {% if  ThisNote is defined and ThisNote|length > 0 %}<div id="delete"><p><a href="/delete/{{ ThisNote.customer }}">Delete Note</a></p></div>{% endif %}
+
+    </div>
+    <div class="note_todos">
         <table>
             <tr><th colspan="3">Todos</th></tr>
-
-        {% for aTodo in ThisNote.Todos %}
+            {% for aTodo in ThisNote.Todos %}
             <tr title="Created: {{ aTodo.createdAt }} - Last Updated: {{ aTodo.updatedAt }}">
-                <td width="70%">{{ aTodo.text }}</td>
+                <td width="70%">{{ aTodo.text[:50] }}...</td>
                 <td>{{ aTodo.status }}</td>
                 <td>{{ aTodo.DueDate }}</td>
             </tr>
-        {% endfor %} 
+            {% endfor %} 
         </table>
-
-        <table>
-            <tr><th colspan="1">URLs</th></tr>
-        {% for aLink in ThisNote.Links %}
-            <tr title="Created: {{ aLink.createdAt }}">
-                <td><a href="{{ aLink.url }}" target="_blank">{{ aLink.text }}</a></td>
-            </tr>
-        {% endfor %} 
-        </table>
-
+    </div>
+    <div class="note_expertrequests">
         <table>
             <tr><th>Expert Requests</th></tr>
-        {% for aER in ThisNote.ExpertRequests %}
+            {% for aER in ThisNote.ExpertRequests %}
             <tr title="Created: {{ aER.createdAt }}">
                 <td><a href="{{ aER.url }}" target="_blank">{{ aER.text }}</a></td>
             </tr>
-        {% endfor %} 
+            {% endfor %} 
         </table>
 
-        <input type="submit" value="Submit">  
+    </div>
+    <div class="note_links">
+        <table>
+            <tr><th colspan="1">URLs</th></tr>
+            {% for aLink in ThisNote.Links %}
+                <tr title="Created: {{ aLink.createdAt }}">
+                    <td><a href="{{ aLink.url }}" target="_blank">{{ aLink.text }}</a></td>
+                </tr>
+            {% endfor %} 
+        </table>
+    </div>
+    <div class="note_images">
+
+    </div>
 
     </form>
-
-    {% if  ThisNote is defined and ThisNote|length > 0 %}<a href="/delete/{{ ThisNote.customer }}">Delete Note</a>{% endif %}
 {% endblock %}
