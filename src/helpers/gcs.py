@@ -1,8 +1,5 @@
 import logging
 import os
-import json
-import blob
-
 
 from google.cloud import storage
 
@@ -11,7 +8,7 @@ from flask import url_for, send_from_directory
 # Set up Google Cloud Storage client
 client = storage.Client()
 
-def UploadGCS(FileBlob: blob) -> str:
+def UploadGCS(filename: str) -> str:
     """
         This function uploads a file to a GCS bucket read from OS environment
 
@@ -27,26 +24,20 @@ def UploadGCS(FileBlob: blob) -> str:
         else:
             logging.error("No GCS_BUCKET Environment variable set")
             return "No GCS_BUCKET Environment variable set"
-        
-        # Get the uploaded file
-        uploaded_file = FileBlob
 
-        # Create a new blob in the bucket
-        blob = client.bucket(bucket_name).blob(uploaded_file.filename)
-
-        # Upload the file
-        blob.upload_from_file(uploaded_file)
-
-        # Grab the public URL
-        public_url = storage.get_public_url(blob)
-        print(f"Upload Complete: {public_url}")
+        storage_client: storage.Client = storage.Client()
+        bucket: storage.Bucket = storage_client.bucket(bucket_name)
+        blob: storage.Blob = bucket.blob(filename.split("/")[-1])
+        blob.upload_from_filename(filename)
+        blob.make_public()
+        public_url: str = blob.public_url
+        print(f"Image uploaded to {public_url}")
+        os.remove(filename)
 
         # Redirect to the uploaded file
         return public_url
+       
 
     except Exception as ex:
         logging.error(ex)
         return (f"Unable to upload to GCS: {ex}")
-
-
-

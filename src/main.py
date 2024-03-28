@@ -4,12 +4,12 @@ import random
 import string
 from datetime import datetime, timedelta, date
 
-from helpers import cloudlogging, firebase
+from helpers import cloudlogging, firebase, gcs
 
 
 from classes import note, link, todo, NoteList
 
-from flask import Flask, render_template, request, redirect, url_for, flash
+from flask import Flask, render_template, request, redirect, url_for, flash, jsonify
 from flask_ckeditor import CKEditor
 
 
@@ -73,6 +73,18 @@ def delete_note(DeleteNoteTitle):
         logging.error(ex)
         flash(f'Unable to delete: {DeleteNoteTitle}. Error: {ex}', 'error')
         return redirect(url_for('read_note',NoteTitle=DeleteNoteTitle))
+
+@app.route('/upload', methods=['POST'])
+def upload_image():
+    # Upload image to gcs
+    file = request.files.get('image')
+    if not file:
+        return jsonify({'error': 'Image is required'}), 400,
+    tmp_file = f'/tmp/{file.filename}'
+    file.save(tmp_file)
+    url = gcs.UploadGCS(FileBlob=tmp_file)
+    os.remove(tmp_file)
+    return jsonify({'url': url})
 
 @app.route('/settings')
 def settings():

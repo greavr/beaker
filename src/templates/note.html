@@ -20,15 +20,19 @@
         SFDC: <input type="text" id="SFDC" name="SFDC" value="{{ ThisNote.SFDC }}" > <br /> 
         PublicSite: <input type="url" id="PublicSite" name="PublicSite" value="{{ ThisNote.PublicSite }}" > <br /> 
         
-        {% if ThisNote.OnMe is defined %}
-            {% if ThisNote.OnMe %}
-                <b>On Me:</b><input type="checkbox" name="OnMe" id="OnMe" value="True" checked> <br />
+        On Me:
+        <label class="switch" for="OnMe">
+            {% if ThisNote.OnMe is defined %}
+                {% if ThisNote.OnMe %}
+                    <input type="checkbox" name="OnMe" id="OnMe" value="True" checked>
+                {% else %}
+                    <input type="checkbox" name="OnMe" id="OnMe" value="True">
+                {% endif %}
             {% else %}
-                <b>On Me:</b><input type="checkbox" name="OnMe" id="OnMe" value="True"> <br />
+                <input type="checkbox" name="OnMe" id="OnMe" value="True">
             {% endif %}
-        {% else %}
-            <b>Active:</b><input type="checkbox" name="OnMe" id="OnMe" checked> <br />
-        {% endif %}
+            <span class="slider"></span>
+        </label><br />
 
         <input type="submit" value="Submit"> 
 
@@ -68,9 +72,9 @@
             {% endfor %} 
         </table>
     </div>
-    <div class="note_images">
-
+    <div class="note_images" ondrop="dropHandler(event);" ondragover="dragOverHandler(event);">
+        <p>Drag image here or click to upload...</p>
     </div>
 
-    </form>
+    </form> 
 {% endblock %}
